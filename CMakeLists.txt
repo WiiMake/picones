@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.13...3.27)
 
+# Define variable for the current file to convert to a c src file
+set(ROM_FILENAME ${CMAKE_CURRENT_SOURCE_DIR}/src/BadApple)
+set(ROM_INPUT_FILE_TYPE ".asm")
+
 # Update git submodules
 find_package(Git QUIET)
 if(GIT_FOUND)
@@ -25,9 +29,9 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/famistudio_ca65.s
      FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ) 
 
 # Assemble and link BadApple using ca65/ld65
-add_custom_target(build_BadApple ALL
-    COMMAND ca65 ${CMAKE_CURRENT_SOURCE_DIR}/src/BadApple.asm -o ${CMAKE_CURRENT_SOURCE_DIR}/src/BadApple.o
-    COMMAND ld65 -C ${CMAKE_CURRENT_SOURCE_DIR}/src/config.cfg ${CMAKE_CURRENT_SOURCE_DIR}/src/BadApple.o -o ${CMAKE_CURRENT_SOURCE_DIR}/src/BadApple.nes
+add_custom_target(build_rom ALL
+    COMMAND ca65 ${ROM_FILENAME}.asm -o ${ROM_FILENAME}.o
+    COMMAND ld65 -C ${CMAKE_CURRENT_SOURCE_DIR}/src/config.cfg ${ROM_FILENAME}.o -o ${ROM_FILENAME}.nes
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # For clangd
@@ -51,12 +55,15 @@ pico_sdk_init()
 add_custom_target(
     generate_rom_header ALL
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_rom_header.py
-            ${CMAKE_CURRENT_SOURCE_DIR}/rom.nes
+            ${ROM_FILENAME}.nes
             ${CMAKE_CURRENT_BINARY_DIR}/rom.h
     BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/rom.h
     COMMENT "Generating ROM header from rom.nes"
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+# Make ROM header generation depend on BadApple build
+add_dependencies(generate_rom_header build_rom)
 
 # Create the executable
 add_executable(picones
