@@ -39,49 +39,49 @@ INES_SRAM = 0 ; (Static Random Access Memory; volatile)
 ; The $C000-$FFFF range is fixed for DPCM data.
 ; With a mapper, the number of banks can be expanded (which is a requirement, since the DPCM data is 177.7kB)
 .segment "DPCM0" 
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcaa"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc1"
 
 .segment "DPCM1"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcab"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc2"
 
 .segment "DPCM2"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcac"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc3"
 
 .segment "DPCM3"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcad"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc4"
 
 .segment "DPCM4"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcae"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc5"
 
 .segment "DPCM5"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcaf"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc6"
 
 .segment "DPCM6"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcag"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc7"
 
 .segment "DPCM7"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcah"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc8"
 
 .segment "DPCM8"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcai"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc9"
 
 .segment "DPCM9"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcaj"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc10"
 
 .segment "DPCM10"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcak"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc11"
 
 .segment "DPCM11"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcal"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc12"
 
 .segment "DPCM12"
-    .incbin "BadApple/dpcm16kb/BadAppleSongMapped.dmcam"
+    .incbin "BadAppleSrc/audio/dpcm16kb/BadAppleSongMapped.dmc13"
 
 
 .segment "CODE"
 ; Include the FamiStudio sound engine
 ; FamiStudio/SoundEngine/famistudio_ca65.s FamiStudio/SoundEngine/famistudio_cc65.h
-.include "FamiStudio/SoundEngine/famistudio_ca65.s"
+.include "../externals/FamiStudio/SoundEngine/famistudio_ca65.s"
 
 .segment "RODATA"
 

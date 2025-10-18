@@ -1,0 +1,6 @@
+[submodule "externals/pico-sdk"]
+	path = externals/pico-sdk
+	url = https://github.com/raspberrypi/pico-sdk
+[submodule "externals/FamiStudio"]
+	path = externals/FamiStudio
+	url = https://github.com/BleuBleu/FamiStudio.git
