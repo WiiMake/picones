@@ -30,8 +30,8 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/famistudio_ca65.s
 
 # Assemble and link BadApple using ca65/ld65
 add_custom_target(build_rom ALL
-    COMMAND ca65 ${ROM_FILENAME}.asm -o ${ROM_FILENAME}.o
-    COMMAND ld65 -C ${CMAKE_CURRENT_SOURCE_DIR}/src/config.cfg ${ROM_FILENAME}.o -o ${ROM_FILENAME}.nes
+    COMMAND ca65 -g ${ROM_FILENAME}.asm -o ${ROM_FILENAME}.o
+    COMMAND ld65 -C ${CMAKE_CURRENT_SOURCE_DIR}/src/config.cfg ${ROM_FILENAME}.o -o ${ROM_FILENAME}.nes --dbgfile ${ROM_FILENAME}.dbg
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # For clangd

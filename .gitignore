@@ -3,6 +3,7 @@ practiceprograms
 MakeDPCM
 *.o
 *.nes
+*.dbg
 
 .cache
 # Prerequisites

@@ -11,8 +11,6 @@
 ; BANK NUMBER: $5FF8 - $5FFF
 ; Uses the famistudio sound engine (BadAppleEngine.asm) and the sound data (BadAppleSong.asm, BadApple.dmc) to playback music
 
-; TODO: figure out why still getting range errors and assemble (only goal is to get it to assemble)
-
 .segment "HEADER"
 ; .inesprg 2 ; 2x 16kb PRG code
 
@@ -22,11 +20,14 @@ INES_SRAM = 0 ; (Static Random Access Memory; volatile)
 
 ; .byte stores data in NES ROM, tricking the assembler into thinking the 16 bit iNES header is part of the code
 .byte 'N', 'E', 'S', $1A ; ID
-.byte $02 ; 16k PRG chunk count; a chunk is 8 or 16kB
+.byte $10 ; 16k PRG chunk count; 16 chunks
 .byte $01 ; 8k CHR chunk count
 .byte INES_MIRROR | (INES_SRAM << 1) | ((INES_MAPPER & $f) << 4) ; setting config flags in 2 bytes
 .byte (INES_MAPPER & %11110000) 
 .byte $0, $0, $0, $0, $0, $0, $0, $0 ; padding
+
+.segment "BSS"
+nmi_busy: .res 1 ; 1 byte for our busy flag
 
 .segment "RODATA"
 
@@ -91,6 +92,13 @@ INES_SRAM = 0 ; (Static Random Access Memory; volatile)
 .segment "CODE"
 
 nmi_handler:
+    ; Check if NMI is already being handled (to prevent a giant call stack)
+    ; If it is, drop the frame
+    lda nmi_busy
+    bne nmi_exit
+
+    inc nmi_busy
+    
     ; Called at the end of each frame
     pha     ;push a to stack
     txa     ;transfer x to a
@@ -110,6 +118,12 @@ nmi_handler:
     pla
     tax
     pla
+
+    ; Clear the flag so the next nmi can be handled
+    lda #$00
+    sta nmi_busy
+
+nmi_exit:
     RTI ; return from interrupt
 
 irq_handler:
@@ -126,8 +140,8 @@ sound_init:
     ; x : Pointer to music data (lo)
     ; y : Pointer to music data (hi)
 
-    ldx #$01                   ; NTSC
-    lda #<music_data_bad_apple ; Pointer to music data (lo)
+    lda #$01                   ; NTSC
+    ldx #<music_data_bad_apple ; Pointer to music data (lo)
     ldy #>music_data_bad_apple ; Pointer to music data (hi)
 
     jsr famistudio_init
@@ -146,12 +160,18 @@ sound_init:
     ; lda #$00
     ; sta sound_disable_flag  ;clear disable flag
 
+    ; Enable all 5 APU channels (Square 1/2, Triangle, Noise, and DPCM)
+    lda #$1F
+    sta $4015
+
+
     ; ;later, if we have other variables we want to initialize, we will do that here.
 
-    rts
+    ; Start playing song $00 (first song)
+    lda #$00
+    jsr famistudio_music_play
 
-sound_load:
-    ; Set up sound engine variables and initialize headers
+    rts
 
 sound_play_frame:
     ; Advance sound engine by one frame
@@ -161,8 +181,6 @@ sound_play_frame:
 
     ; Start song playback with famistudio_music_play (updated in NMI)
     ; a : Song index (assuming starting with 0)
-    lda #$00
-    jsr famistudio_music_play
     rts
 
 ; .done_playing:
@@ -176,33 +194,78 @@ sound_play_frame:
 ;     rts
 
 .proc famistudio_dpcm_bank_callback
-    ; The MMC1 listens for 5-bit writes to the entire cartridge space ($8000-$FFFF)
-    ; Commands written to this space are picked up by the mapper, NOT sent directly to the ROM chips
+    ; The bank number is passed in the Y register.
+    ; We must preserve A and X.
     
-    ; Reset MMC1 shift register by writing a value with bit 7 set
+    pha ; Save A
+    txa ; Save X (by pushing it to A, then stack)
+    pha
+
+    ; 1. Reset MMC1 shift register
+    ; (This part is fine, it uses A temporarily)
     lda #%10000000
     sta $8000
 
-    ; Write the bank number to the MMC1 (one bit at a time to handle the shift register)
+    ; 2. Get the bank number from Y into A
+    tya 
+
+    ; 3. Write the 5 bits from A to the mapper
     ldx #5 ; 5 bits to write
-    tya    ; Load bank number from y into A
-    mmc1_write_loop:
-        pha        ; Save current value of A
-        lsr a      ; Shift rightmost bit into Carry
-        lda #0     ; Clear A
-        adc #0     ; A = 0 + Carry
-        sta $E000  ; Write the bit (0 or 1)
-        pla        ; Restore A
-        dex
-        bne mmc1_write_loop
+mmc1_write_loop:
+    pha        ; Save bank number (in A)
+    lsr a      ; Shift rightmost bit into Carry
+    lda #0
+    adc #0
+    sta $E000  ; Write the bit to the PRG bank register ($E000-$FFFF)
+    pla        ; Restore bank number (in A)
+    dex
+    bne mmc1_write_loop
+
+    ; Restore X and A
+    pla
+    tax ; (pop A from stack, restore to X)
+    pla ; (pop A from stack, restore to A)
+    
     rts
 .endproc
 
 main:
     ; Initialize MMC1 Mapper
-    lda #%00011000  ; Bit 2 Sets 16kB PRG mode, Bit 3 fixes $8000 bank and makes $C000 swappable 
+    ; Bit 4 (C): 0 = 8KB CHR bank mode
+    ; Bit 3 (S): 0 = Fix $C000-$FFFF, Swap $8000-$BFFF
+    ; Bit 2 (P): 1 = 16KB PRG bank mode
+    ; Bit 1 (M): 1 = Vertical Mirroring
+    ; lda #%00000101
+    lda #%00000101 ; Fix $C000 (where the code is)
     sta $8000
 
+vblank_wait:
+    bit $2002   ; Read PPU status
+    bpl vblank_wait ; Loop until VBlank bit (bit 7) is set
+
+    ; Optional but good practice: Clear all RAM
+    lda #$00
+    ldx #$00
+    
+clear_ram:
+    sta $0300,X ; Clear RAM $0300-$07FF
+    sta $0400,X
+    sta $0500,X
+    sta $0600,X
+    sta $0700,X
+    inx
+    bne clear_ram
+
+    ; Turn on the PPU (enable rendering)
+    lda #%00011110  ; Enable background (bit 3) and sprites (bit 4)
+    sta $2001       ; Write to PPUMASK
+
+    ; Tell the PPU to start triggering NMIs
+    lda #%10000000  ; Enable NMI (bit 7)
+    sta $2000       ; Write to PPUCTRL
+
+sound_engine_setup:
+    ; Set DPCM bank callback
     ldy #$00
     jsr famistudio_dpcm_bank_callback
 
