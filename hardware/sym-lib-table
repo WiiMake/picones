@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "pimoroni_pga2350")(type "KiCad")(uri "${KIPRJMOD}/Pimoroni_PGA2350/pimoroni_pga2350.kicad_sym")(options "")(descr ""))
+  (lib (name "nes-cart")(type "KiCad")(uri "${KIPRJMOD}/nes-cart.kicad_sym")(options "")(descr ""))
+)
