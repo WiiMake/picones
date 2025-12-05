@@ -1754,7 +1754,7 @@
 		(descr "TSSOP, 16 Pin (https://www.jedec.org/document_search?search_api_views_fulltext=MO-153), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 		(tags "TSSOP SO JEDEC-MO-153-AB Texas_PW0016A Microchip-ST Toshiba-TSSOP16-P-0044-0.65A NXP-SOT403-1 Infineon-P-TSSOP-16-800")
 		(property "Reference" "U14"
-			(at 0 -3.45 0)
+			(at -5.715 -1.655 0)
 			(layer "F.SilkS")
 			(uuid "81f042ca-c58e-4084-8ffb-aa085d992a3c")
 			(effects
@@ -3415,7 +3415,7 @@
 		(descr "TSSOP, 20 Pin (JEDEC MO-153 Var AC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 		(tags "TSSOP SO")
 		(property "Reference" "U20"
-			(at 0 -4.2 0)
+			(at -2.54 4.445 0)
 			(layer "F.SilkS")
 			(uuid "6eb179cf-abed-40b9-bdd6-df1ce381a54e")
 			(effects
@@ -5633,7 +5633,7 @@
 		(descr "LED SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator")
 		(tags "LED handsolder")
 		(property "Reference" "D1"
-			(at 0 -1.83 0)
+			(at -3.81 0 0)
 			(layer "F.SilkS")
 			(uuid "ad0ad37f-07f3-4cab-892d-64a83b9128a5")
 			(effects
@@ -7933,7 +7933,7 @@
 		(descr "TSSOP, 16 Pin (https://www.jedec.org/document_search?search_api_views_fulltext=MO-153), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 		(tags "TSSOP SO JEDEC-MO-153-AB Texas_PW0016A Microchip-ST Toshiba-TSSOP16-P-0044-0.65A NXP-SOT403-1 Infineon-P-TSSOP-16-800")
 		(property "Reference" "U15"
-			(at 0 -3.45 0)
+			(at 2.8625 -3.47 0)
 			(layer "F.SilkS")
 			(uuid "ec61269b-b80e-42c8-b12b-670b7607aa62")
 			(effects
@@ -11986,7 +11986,7 @@
 		(descr "8-lead though-hole mounted DIP package, row spacing 7.62mm (300 mils)")
 		(tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
 		(property "Reference" "U8"
-			(at 3.81 -2.33 0)
+			(at 8.255 -1.905 0)
 			(layer "F.SilkS")
 			(uuid "d7446221-723d-47ad-90df-226e027980f2")
 			(effects
@@ -12477,7 +12477,7 @@
 		(descr "Through hole straight pin header, 1x02, 1.00mm pitch, single row")
 		(tags "Through hole pin header THT 1x02 1.00mm single row")
 		(property "Reference" "JP1"
-			(at 0 -1.61 0)
+			(at 2.54 1.27 0)
 			(layer "F.SilkS")
 			(uuid "80b72308-30ac-478d-b00f-0fed1b212a79")
 			(effects
@@ -12750,7 +12750,7 @@
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C23"
-			(at 0 -1.16 90)
+			(at 2.385 0 90)
 			(layer "F.SilkS")
 			(uuid "d494281b-7699-4009-8ec8-0d6ce375ce55")
 			(effects
@@ -12949,7 +12949,7 @@
 		(descr "Through hole straight pin header, 1x02, 1.00mm pitch, single row")
 		(tags "Through hole pin header THT 1x02 1.00mm single row")
 		(property "Reference" "JP2"
-			(at 0 -1.61 0)
+			(at -2.54 1.27 0)
 			(layer "F.SilkS")
 			(uuid "d4e0f386-5ed8-45df-a296-5affadfba699")
 			(effects
@@ -16803,7 +16803,7 @@
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C3"
-			(at 0 -1.16 90)
+			(at 0 1.27 90)
 			(layer "F.SilkS")
 			(uuid "91ec0260-0e7a-4c4c-9fa1-9d4af1507d4d")
 			(effects
@@ -18094,7 +18094,7 @@
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor handsolder")
 		(property "Reference" "R1"
-			(at 0 -1.43 0)
+			(at -2.8175 0 0)
 			(layer "F.SilkS")
 			(uuid "878f3727-9dd9-4a9f-bc75-7c82b9586831")
 			(effects
@@ -19468,7 +19468,7 @@
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C1"
-			(at 0 -1.16 0)
+			(at 0.635 1.27 0)
 			(layer "F.SilkS")
 			(uuid "6ce50478-9d83-4278-a82d-57976ede54f2")
 			(effects
@@ -21122,7 +21122,7 @@
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C5"
-			(at 0 -1.16 90)
+			(at 0 1.27 90)
 			(layer "F.SilkS")
 			(uuid "b6af5e45-67cf-46c0-bbbf-aa28208bc6e0")
 			(effects
